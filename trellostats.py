@@ -23,6 +23,8 @@
 
 import sys
 
+from trellostats.app import trelloStatsApp
+
 
 def usage():
     print("""trelloStats - collect statistics from Trello boards.
@@ -48,8 +50,10 @@ def main(argv):
         sys.exit(0)
 
     # Read the arguments to create the card
-    board = argv[1]
-    print("Using board: %s" % board)
+    app = trelloStatsApp(argv[1])
+    board = app.getBoard()
+    print("Using board %s - ID: %s" % (board.getBoardName(),
+                                       board.getBoardId()))
 
 
 if __name__ == "__main__":

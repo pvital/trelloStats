@@ -23,6 +23,7 @@
 
 import requests
 
+
 class trelloConn:
     """
     Trello Connection - Base class for Trello API access.
