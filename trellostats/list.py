@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -25,55 +26,58 @@
 import json
 
 from .conn import trelloConn
-from .list import trelloStatsLists
 
 
-class trelloStatsBoard:
+class trelloStatsLists:
     """
-    trelloStats Board class.
+    Class to represent the trelloStats Lists of a given board.
     """
 
-    def __init__(self, name, conn=None):
-        self.name = name
+    def __init__(self, idBoard=None, conn=None):
+        self.idBoard = idBoard
         self.conn = conn
-        self.id = None
-        self.closed = False
-        self.labels = {}
-        self.lists = []
+        if (not idBoard) or (not conn):
+            self.boardLists = []
+        else:
+            self.boardLists = self._getBoardLists()
 
-        if (conn):
-            for board in self._getBoards():
-                if board['name'] == self.name:
-                    self.id = board['id']
-                    self.closed = True if board['closed'] == 'true' else False
-                    self.labels = board['labelNames']
-                    self.lists = trelloStatsLists(self.id, conn).getLists()
-        if (not self.id):
-            print("No board called \"%s\" was found." % self.name)
+    def getLists(self):
+        return self.boardLists
 
-    def getBoardName(self):
+    def _getBoardLists(self):
+        lists = []
+        for list in json.loads(self.conn.get('/boards/%s/lists/' %
+                                self.idBoard)):
+            if (not list['closed']):
+                lists.append(trelloStatsList(list))
+        return lists
+
+
+class trelloStatsList:
+    """
+    trelloStats List class.
+    """
+
+    def __init__(self, listDict=None):
+        if (not listDict):
+            return None
+
+        self.id = listDict['id']
+        self.name = listDict['name']
+        self.idBoard = listDict['idBoard']
+        self.cards = []
+
+    def getListName(self):
         return self.name
 
-    def getBoardId(self):
+    def getListId(self):
         return self.id
 
-    def getBoardLists(self):
-        return self.lists
+    def getListBoard(self):
+        return self.idBoard
 
-    def getBoardLabels(self):
-        return self.labels
-
-    def isBoardClosed(self):
-        return self.closed
-
-    def _getBoards(self):
-        return json.loads(self.conn.get('/members/me/boards/'))
-
-    def _getBoard(self, id=None):
-        if not id:
-            return {}
-
-        return json.loads(self.conn.get('/boards/%s' % id))
+    def getListCards(self):
+        return self.cards
 
 
 if __name__ == "__main__":
