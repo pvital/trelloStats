@@ -25,8 +25,6 @@
 import json
 
 from .board import trelloStatsBoard
-from .conn import trelloConn
-from .utils import readAPICreds
 
 
 class trelloStatsApp:
@@ -35,9 +33,7 @@ class trelloStatsApp:
     """
 
     def __init__(self, board=None):
-        cred = readAPICreds()
-        self.conn = trelloConn(cred['api_key'], cred['token'])
-        self.board = trelloStatsBoard(board, self.conn)
+        self.board = trelloStatsBoard(board)
 
     def getBoard(self):
         return self.board

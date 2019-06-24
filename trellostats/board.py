@@ -33,21 +33,20 @@ class trelloStatsBoard:
     trelloStats Board class.
     """
 
-    def __init__(self, name, conn=None):
+    def __init__(self, name):
         self.name = name
-        self.conn = conn
+        self.conn = trelloConn()
         self.id = None
         self.closed = False
         self.labels = {}
         self.lists = []
 
-        if (conn):
-            for board in self._getBoards():
-                if board['name'] == self.name:
-                    self.id = board['id']
-                    self.closed = True if board['closed'] == 'true' else False
-                    self.labels = board['labelNames']
-                    self.lists = trelloStatsLists(self.id, conn).getLists()
+        for board in self._getBoards():
+            if board['name'] == self.name:
+                self.id = board['id']
+                self.closed = True if board['closed'] == 'true' else False
+                self.labels = board['labelNames']
+                self.lists = trelloStatsLists(self.id).getLists()
         if (not self.id):
             print("No board called \"%s\" was found." % self.name)
 

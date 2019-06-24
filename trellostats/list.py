@@ -33,10 +33,10 @@ class trelloStatsLists:
     Class to represent the trelloStats Lists of a given board.
     """
 
-    def __init__(self, idBoard=None, conn=None):
+    def __init__(self, idBoard=None):
         self.idBoard = idBoard
-        self.conn = conn
-        if (not idBoard) or (not conn):
+        self.conn = trelloConn()
+        if (not idBoard):
             self.boardLists = []
         else:
             self.boardLists = self._getBoardLists()
