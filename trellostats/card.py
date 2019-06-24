@@ -25,60 +25,61 @@
 
 import json
 
-from .card import trelloStatsCards
 from .conn import trelloConn
+from .label import trelloStatsLabel
 
 
-class trelloStatsLists:
+class trelloStatsCards:
     """
-    Class to represent the trelloStats Lists of a given board.
+    Class to represent the trelloStats Cards of a given list.
     """
 
-    def __init__(self, idBoard=None):
-        self.idBoard = idBoard
+    def __init__(self, idList=None):
+        self.idList = idList
         self.conn = trelloConn()
-        if (not idBoard):
-            self.boardLists = []
+        if (not idList):
+            self.listCards = []
         else:
-            self.boardLists = self._getBoardLists()
+            self.listCards = self._getlistCards()
 
-    def getLists(self):
-        return self.boardLists
+    def getCards(self):
+        return self.listCards
 
-    def _getBoardLists(self):
-        lists = []
-        for list in json.loads(self.conn.get('/boards/%s/lists/' %
-                                self.idBoard)):
-            if (not list['closed']):
-                lists.append(trelloStatsList(list))
-        return lists
+    def _getlistCards(self):
+        cards = []
+        for card in json.loads(self.conn.get('/lists/%s/cards/' % self.idList)):
+            if (not card['closed']):
+                cards.append(trelloStatsCard(card))
+        return cards
 
 
-class trelloStatsList:
+class trelloStatsCard:
     """
-    trelloStats List class.
+    trelloStats Card class.
     """
 
-    def __init__(self, listDict=None):
-        if (not listDict):
+    def __init__(self, cardDict=None):
+        if (not cardDict):
             return None
 
-        self.id = listDict['id']
-        self.name = listDict['name']
-        self.idBoard = listDict['idBoard']
-        self.cards = trelloStatsCards(listDict['id']).getCards()
+        self.id = cardDict['id']
+        self.name = cardDict['name']
+        self.idList = cardDict['idList']
+        self.labels = []
+        for idLabel in cardDict['idLabels']:
+            self.labels.append(trelloStatsLabel(idLabel))
 
-    def getListName(self):
+    def getCardName(self):
         return self.name
 
-    def getListId(self):
+    def getCardId(self):
         return self.id
 
-    def getListBoard(self):
-        return self.idBoard
+    def getCardList(self):
+        return self.idList
 
-    def getListCards(self):
-        return self.cards
+    def getCardLabels(self):
+        return self.labels
 
 
 if __name__ == "__main__":
