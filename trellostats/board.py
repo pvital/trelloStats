@@ -60,7 +60,10 @@ class trelloStatsBoard:
         return self.lists
 
     def getBoardLabels(self):
-        return self.labels
+        # self.labels is a dictionary were the key are the possible colors and
+        # the values are the names for these colors, if the color doesnt have a
+        # name, the value is empty. So, we get here only the valid values.
+        return list(val for val in self.labels.values() if val)
 
     def isBoardClosed(self):
         return self.closed
@@ -71,7 +74,6 @@ class trelloStatsBoard:
     def _getBoard(self, id=None):
         if not id:
             return {}
-
         return json.loads(self.conn.get('/boards/%s' % id))
 
 

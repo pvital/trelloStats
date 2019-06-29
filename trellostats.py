@@ -50,11 +50,12 @@ def main(argv):
         sys.exit(0)
 
     # Read the arguments to create the card
-    app = trelloStatsApp(argv[1])
-    board = app.getBoard()
-    print("Using board %s - ID: %s" % (board.getBoardName(),
-                                       board.getBoardId()))
+    stats = trelloStatsApp(argv[1])
 
+    # Print the stats for Board
+    print("==> STATS: Number of lists: %d" % stats.getNumList())
+    print("==> STATS: Number of open cards: %d" % stats.getNumOpenCards())
+    print("==> STATS: Number of labels: %d" % stats.getNumLabels())
 
 if __name__ == "__main__":
     main(sys.argv)

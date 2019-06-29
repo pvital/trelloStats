@@ -22,8 +22,6 @@
 # SOFTWARE.
 
 
-import json
-
 from .board import trelloStatsBoard
 
 
@@ -34,9 +32,36 @@ class trelloStatsApp:
 
     def __init__(self, board=None):
         self.board = trelloStatsBoard(board)
+        self.numLabels = 0
+        self.numLists = 0
+        self.numOpenCards = 0
+        if (not self.board.isBoardClosed()):
+            print(self.board.getBoardLabels())
+            self.numLabels = len(self.board.getBoardLabels())
+            self.numLists = len(self.board.getBoardLists())
+            self.numOpenCards = self._numOpenCard()
 
-    def getBoard(self):
-        return self.board
+    def getStats(self):
+        return {
+            'numLabels': self.numLabels,
+            'numLists': self.numLists,
+            'numOpenCards': self.numOpenCards
+        }
+
+    def getNumLabels(self):
+        return self.numLabels
+
+    def getNumList(self):
+        return self.numLists
+
+    def getNumOpenCards(self):
+        return self.numOpenCards
+
+    def _numOpenCard(self):
+        openCards = 0
+        for list in self.board.getBoardLists():
+            openCards += len(list.getListCards())
+        return openCards
 
 
 if __name__ == "__main__":
