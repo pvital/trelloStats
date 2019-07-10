@@ -41,13 +41,14 @@ class trelloStatsBoard:
         self.labels = {}
         self.lists = []
 
-        for board in self._getBoards():
-            if board['name'] == self.name:
-                self.id = board['id']
-                self.closed = True if board['closed'] == 'true' else False
-                self.labels = board['labelNames']
-                self.lists = trelloStatsLists(self.id).getLists()
-        if (not self.id):
+        try:
+            board = (it for it in self._getBoards() if it['name'] == name)
+            board = self._getBoard(next(board)['id'])
+            self.id = board['id']
+            self.closed = True if board['closed'] == 'true' else False
+            self.labels = board['labelNames']
+            self.lists = trelloStatsLists(self.id).getLists()
+        except:
             print("No board called \"%s\" was found." % self.name)
 
     def getBoardName(self):
@@ -69,7 +70,8 @@ class trelloStatsBoard:
         return self.closed
 
     def _getBoards(self):
-        return json.loads(self.conn.get('/members/me/boards/'))
+        return json.loads(self.conn.get('/members/me/boards/',
+                                        {'fields': 'id,name'}))
 
     def _getBoard(self, id=None):
         if not id:
