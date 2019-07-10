@@ -36,7 +36,7 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-class trelloConn(object, metaclass=Singleton):
+class TrelloConn(object, metaclass=Singleton):
     """
     Trello Connection - Base class for Trello API access.
     """

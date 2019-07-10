@@ -23,7 +23,7 @@
 
 import sys
 
-from trellostats.app import trelloStatsApp
+from trellostats.app import TrelloStatsApp
 
 
 def usage():
@@ -50,7 +50,7 @@ def main(argv):
         sys.exit(0)
 
     # Read the arguments to create the card
-    stats = trelloStatsApp(argv[1])
+    stats = TrelloStatsApp(argv[1])
 
     # Print the stats for Board
     print("==> STATS: Number of lists: %d" % stats.getNumList())

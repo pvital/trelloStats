@@ -25,18 +25,18 @@
 
 import json
 
-from .card import trelloStatsCards
-from .conn import trelloConn
+from .card import TrelloStatsCards
+from .conn import TrelloConn
 
 
-class trelloStatsLists:
+class TrelloStatsLists:
     """
     Class to represent the trelloStats Lists of a given board.
     """
 
     def __init__(self, idBoard=None):
         self.idBoard = idBoard
-        self.conn = trelloConn()
+        self.conn = TrelloConn()
         if (not idBoard):
             self.boardLists = []
         else:
@@ -50,11 +50,11 @@ class trelloStatsLists:
         for list in json.loads(self.conn.get('/boards/%s/lists/' %
                                 self.idBoard)):
             if (not list['closed']):
-                lists.append(trelloStatsList(list))
+                lists.append(TrelloStatsList(list))
         return lists
 
 
-class trelloStatsList:
+class TrelloStatsList:
     """
     trelloStats List class.
     """
@@ -66,7 +66,7 @@ class trelloStatsList:
         self.id = listDict['id']
         self.name = listDict['name']
         self.idBoard = listDict['idBoard']
-        self.cards = trelloStatsCards(listDict['id']).getCards()
+        self.cards = TrelloStatsCards(listDict['id']).getCards()
 
     def getListName(self):
         return self.name

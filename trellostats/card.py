@@ -25,18 +25,18 @@
 
 import json
 
-from .conn import trelloConn
-from .label import trelloStatsLabel
+from .conn import TrelloConn
+from .label import TrelloStatsLabel
 
 
-class trelloStatsCards:
+class TrelloStatsCards:
     """
     Class to represent the trelloStats Cards of a given list.
     """
 
     def __init__(self, idList=None):
         self.idList = idList
-        self.conn = trelloConn()
+        self.conn = TrelloConn()
         if (not idList):
             self.listCards = []
         else:
@@ -67,7 +67,7 @@ class trelloStatsCard:
         self.idList = cardDict['idList']
         self.labels = []
         for idLabel in cardDict['idLabels']:
-            self.labels.append(trelloStatsLabel(idLabel))
+            self.labels.append(TrelloStatsLabel(idLabel))
 
     def getCardName(self):
         return self.name

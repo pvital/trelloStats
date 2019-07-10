@@ -25,16 +25,16 @@
 
 import json
 
-from .conn import trelloConn
+from .conn import TrelloConn
 
 
-class trelloStatsLabel:
+class TrelloStatsLabel:
     """
     trelloStats Label class.
     """
 
     def __init__(self, idLabel):
-        conn = trelloConn()
+        conn = TrelloConn()
         labelDict = json.loads(conn.get('/labels/%s/' % idLabel))
         if (labelDict):
             self.id = labelDict['id']

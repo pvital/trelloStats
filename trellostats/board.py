@@ -24,18 +24,18 @@
 
 import json
 
-from .conn import trelloConn
-from .list import trelloStatsLists
+from .conn import TrelloConn
+from .list import TrelloStatsLists
 
 
-class trelloStatsBoard:
+class TrelloStatsBoard:
     """
     trelloStats Board class.
     """
 
     def __init__(self, name):
         self.name = name
-        self.conn = trelloConn()
+        self.conn = TrelloConn()
         self.id = None
         self.closed = False
         self.labels = {}
@@ -47,7 +47,7 @@ class trelloStatsBoard:
             self.id = board['id']
             self.closed = True if board['closed'] == 'true' else False
             self.labels = board['labelNames']
-            self.lists = trelloStatsLists(self.id).getLists()
+            self.lists = TrelloStatsLists(self.id).getLists()
         except:
             print("No board called \"%s\" was found." % self.name)
 

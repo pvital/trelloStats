@@ -22,16 +22,16 @@
 # SOFTWARE.
 
 
-from .board import trelloStatsBoard
+from .board import TrelloStatsBoard
 
 
-class trelloStatsApp:
+class TrelloStatsApp:
     """
     trelloStats App class.
     """
 
     def __init__(self, board=None):
-        self.board = trelloStatsBoard(board)
+        self.board = TrelloStatsBoard(board)
         self.numLabels = 0
         self.numLists = 0
         self.numOpenCards = 0

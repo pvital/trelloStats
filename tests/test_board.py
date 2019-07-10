@@ -24,18 +24,18 @@
 
 import unittest
 
-from trellostats.board import trelloStatsBoard
+from trellostats.board import TrelloStatsBoard
 
 board = None
 
 def setUpModule():
     global board
-    board = trelloStatsBoard('testAPI')
+    board = TrelloStatsBoard('testAPI')
 
 
 class TrelloStatsBoardTests(unittest.TestCase):
     """
-    Test the trelloStatsBoard class.
+    Test the TrelloStatsBoard class.
     """
 
     def test_getBoardName(self):
