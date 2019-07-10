@@ -26,32 +26,35 @@ import unittest
 
 from trellostats.board import trelloStatsBoard
 
+board = None
+
+def setUpModule():
+    global board
+    board = trelloStatsBoard('testAPI')
+
 
 class TrelloStatsBoardTests(unittest.TestCase):
     """
     Test the trelloStatsBoard class.
     """
 
-    def setUp(self):
-        self.board = trelloStatsBoard('testAPI')
-
     def test_getBoardName(self):
-        self.assertEqual(self.board.getBoardName(), 'testAPI')
+        self.assertEqual(board.getBoardName(), 'testAPI')
 
     def test_getBoardId(self):
-        self.assertEqual(self.board.getBoardId(), '5b3a9c9421794651e035bb22')
+        self.assertEqual(board.getBoardId(), '5b3a9c9421794651e035bb22')
 
     def test_getBoardLists(self):
-        lists = self.board.getBoardLists()
+        lists = board.getBoardLists()
         self.assertEqual(len(lists), 2)
 
     def test_getBoardLabels(self):
-        labels = self.board.getBoardLabels()
+        labels = board.getBoardLabels()
         self.assertIn('HEHEHE', labels)
         self.assertIn('HAHAHA', labels)
 
     def test_isBoardClosed(self):
-        self.assertFalse(self.board.isBoardClosed())
+        self.assertFalse(board.isBoardClosed())
 
 
 if __name__ == "__main__":
