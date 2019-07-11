@@ -1,6 +1,31 @@
 # trelloStats
 app to collect statistics from Trello boards.
 
+## Running Unit Tests
+
+To run all unit tests, execute the following:
+
+```
+$ cd tests
+$ ./run_tests.sh
+```
+
+To execute only one (or more) unit test, specify the name of the unit test,
+by executing:
+
+```
+$ cd tests
+$ ./run_tests.sh test_board             # run only Board unit tests
+$ ./run_tests.sh test_board test_label  # run Board and Label unit tests
+```
+
+If you want a verbose output, with the name of each unit test, execute:
+
+```
+$ cd tests
+$ ./run_tests.sh -v
+```
+
 ## Trello API Key and Token
 
 To be able to submit requests to Trello API, it is necessary to create an API
