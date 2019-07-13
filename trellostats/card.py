@@ -46,11 +46,8 @@ class TrelloStatsCards:
         return self.listCards
 
     def _getlistCards(self):
-        cards = []
-        for card in json.loads(self.conn.get('/lists/%s/cards/' % self.idList)):
-            if (not card['closed']):
-                cards.append(trelloStatsCard(card))
-        return cards
+        cards = json.loads(self.conn.get('/lists/%s/cards/' % self.idList))
+        return [trelloStatsCard(card) for card in cards if not card['closed']]
 
 
 class trelloStatsCard:
@@ -65,9 +62,7 @@ class trelloStatsCard:
         self.id = cardDict['id']
         self.name = cardDict['name']
         self.idList = cardDict['idList']
-        self.labels = []
-        for idLabel in cardDict['idLabels']:
-            self.labels.append(TrelloStatsLabel(idLabel))
+        self.labels = [TrelloStatsLabel(id) for id in cardDict['idLabels']]
 
     def getCardName(self):
         return self.name
