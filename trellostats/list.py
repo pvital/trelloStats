@@ -46,12 +46,8 @@ class TrelloStatsLists:
         return self.boardLists
 
     def _getBoardLists(self):
-        lists = []
-        for list in json.loads(self.conn.get('/boards/%s/lists/' %
-                                self.idBoard)):
-            if (not list['closed']):
-                lists.append(TrelloStatsList(list))
-        return lists
+        lists = json.loads(self.conn.get('/boards/%s/lists/' % self.idBoard))
+        return [TrelloStatsList(list) for list in lists if not list['closed']]
 
 
 class TrelloStatsList:
